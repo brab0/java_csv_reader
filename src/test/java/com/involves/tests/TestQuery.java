@@ -172,6 +172,26 @@ public class TestQuery extends TestCase{
 	}
 	
 	@Test
+	@SuppressWarnings("unused")
+	public void testOperationFilterWithNoValue() throws MyException, IOException{
+		
+		Dataset dataset = Console.use("use src/test/resources/cidades.csv");
+		
+		try {			
+			
+			Query query = new Query(dataset);			
+									
+			Dataset results = query.exec("count *");
+			
+		} catch (MyException e){
+			
+			assertEquals(e.getMessage(), "Nenhum valor encontrado na sentença.");
+			
+		}
+		
+	}
+	
+	@Test
 	public void testOperationDistinct() throws MyException, IOException{
 		
 		Dataset dataset = Console.use("use src/test/resources/cidades.csv");
@@ -220,7 +240,7 @@ public class TestQuery extends TestCase{
 		
 		Query query = new Query(dataset);
 
-		Dataset results = query.exec("get * from uf filter and distinct by value rj");
+		Dataset results = query.exec("filter uf and distinct by value rj");
 		
 		assertEquals(results.getHeader().size(), 10);
 		
