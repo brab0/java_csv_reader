@@ -12,7 +12,7 @@ import com.involves.MyException;
 
 public class TestCsv extends TestCase{
 	
-	//use "src/test/resources/cidades.csv" "UTF-8"
+	//use "src/test/resources/cidades.csv"
 	
 	@SuppressWarnings("unused")
 	@Test
