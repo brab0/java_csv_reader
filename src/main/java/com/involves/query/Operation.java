@@ -12,33 +12,43 @@ public class Operation {
 	private static Hashtable<String, OperationInterface> items;	
 	
 	interface OperationInterface {
+		
 		public Dataset exec(Dataset dataset, Sentence sentence);
+		
     }
 	
 	public Operation() {
+		
 		items = new Hashtable<String, OperationInterface>();
 		
     	items.put("count", new OperationInterface() { public Dataset exec(Dataset dataset, Sentence sentence) { return count(dataset, sentence); } });
     	items.put("distinct", new OperationInterface() { public Dataset exec(Dataset dataset, Sentence sentence) { return distinct(dataset, sentence); } });
     	items.put("filter", new OperationInterface() { public Dataset exec(Dataset dataset, Sentence sentence) { return filter(dataset, sentence); } });    	
-    }
+    
+	}
 	
 	public OperationInterface getItem(String item){
+		
 		return items.get(item);
+		
 	}
 	
 	public boolean exists(String cmd){			
 		
 		if (items.get(cmd) != null) {
+			
 			return true;
+			
 		}
 		
 		return false;
 	}
 	
 	private Dataset applyFilterIfNecessary(Dataset dataset, Sentence sentence){		
-		if((sentence.getValues().size() > 0) && (sentence.getOperations().indexOf("filter") == -1)){			
+		if((sentence.getValues().size() > 0) && (sentence.getOperations().indexOf("filter") == -1)){
+			
 			return filter(dataset, sentence);
+			
 		}
 		
 		return dataset;
@@ -46,17 +56,21 @@ public class Operation {
 	
 	private Dataset count(Dataset dataset, Sentence sentence) {
 		List<String> newHeader = new ArrayList<String>();
+		
 		List<String> newRow = new ArrayList<String>();
 		
 		Dataset result = applyFilterIfNecessary(dataset, sentence);		
 		
 		for(String property : sentence.getProperties()){
+			
 			newHeader.add(property);
 			
 			newRow.add(String.valueOf(result.getBody().size()));
+			
 		}
 		
 		result.setHeader(newHeader);
+		
 		result.setBody(Arrays.asList(newRow));
 		
 		return result;
@@ -75,17 +89,23 @@ public class Operation {
 			Boolean unique = true;
 			
 			for(List<String> newRow : result.getBody()){
+				
 				for(String property : sentence.getProperties()){
-					int indexCol = dataset.getHeader().indexOf(property);
 					
-					if(row.get(indexCol).equals(newRow.get(indexCol))){
-						unique = false;
+					if(!property.equals("*")){
+						int indexCol = dataset.getHeader().indexOf(property);
+
+						if(row.get(indexCol).equals(newRow.get(indexCol))){							
+							unique = false;							
+						}
 					}
 				}
 			}
 			
 			if((result.getBody().size() == 0) || (unique)){
+				
 				result.addBody(row);
+				
 			}
 		}
 		
@@ -100,26 +120,35 @@ public class Operation {
 		
 		for(List<String> row : dataset.getBody()){
 			
-			int andCount = 0;			
+			int orCount = 0;			
 			
 			for(String property : sentence.getProperties()){
-				int indexCol = dataset.getHeader().indexOf(property);				
-				Boolean found = false;
 				
-				for(String value : sentence.getValues()){					
+				if(!property.equals("*")){
+				
+					int indexCol = dataset.getHeader().indexOf(property);				
 					
-					if(row.get(indexCol).toLowerCase().equals(value.toLowerCase())){
-						found = true;
+					Boolean found = false;
+					
+					for(String value : sentence.getValues()){					
+						
+						if(row.get(indexCol).toLowerCase().equals(value.toLowerCase())){
+							found = true;
+						}
+					}
+					
+					if(found){
+						orCount++;
 					}
 				}
-				
-				if(found){
-					andCount++;
-				}				
 			}
 			
-			if(andCount == sentence.getProperties().size()){
+			//se satisfaz pelo menos uma das propriedades
+			
+			if(orCount >= 1){
+				
 				result.addBody(row);
+				
 			}
 		}
 		

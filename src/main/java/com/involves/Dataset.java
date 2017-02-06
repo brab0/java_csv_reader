@@ -13,6 +13,14 @@ public class Dataset {
 		body = new ArrayList<List<String>>();
 	}
 	
+	public Dataset copy(){
+		Dataset ds = new Dataset();
+		ds.setHeader(getHeader());
+		ds.setBody(getBody());
+		
+		return ds;
+	}
+	
 	public List<String> getHeader() {
 		return header;
 	}

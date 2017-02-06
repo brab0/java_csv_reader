@@ -12,20 +12,24 @@ public class Console {
 	static Dataset dataset;
 	static String sentence;
 	
-	public void run() throws IOException{
+	public static void run() throws IOException{
 		
 		clear();
 		
 		do {
 			sentence = readSentence();
 			
-			exec();
+			try {
+				exec(sentence);
+			} catch (MyException e) {
+				System.out.println(e.message);
+			}
 			
 		} while (true);
 		
 	}
 	
-	public static String readSentence() throws IOException{
+	public static String readSentence() throws IOException {
 		
 		System.out.print("$ ");
 		
@@ -35,7 +39,7 @@ public class Console {
 		
 	}
 	
-	public void exec() throws IOException{
+	public static void exec(String sentence) throws MyException, IOException {
 
 		if (sentence.equals("exit")){
 			exit();
@@ -43,69 +47,55 @@ public class Console {
 			clear();
 		}
 		else if(sentence.contains("use")){
-			use();
+			dataset = use(sentence);			
 		}
 		else if(!sentence.equals("")){
-			query();
+			Dataset results = query(dataset, sentence);
+			
+			print(results);
 		}
 		
 	}
 	
-	public static void use() throws IOException{
-		// use "src/test/resources/cidades.csv" "UTF-8"
+	public static Dataset use(String sentence) throws MyException, IOException {
 		
 		String[] parts = sentence.split(" ");		
 
 		if(parts.length >= 2){			
-			
-			try {
 				
-				if(parts.length == 2){
-					dataset = Csv.parseDataset(parts[1].replaceAll("\"", ""));
-				} else if(parts.length == 3){
-					dataset = Csv.parseDataset(parts[1].replaceAll("\"", ""), parts[2].replaceAll("\"", ""));
-				} else if(parts.length == 4){
-					dataset = Csv.parseDataset(parts[1].replaceAll("\"", ""), parts[2].replaceAll("\"", ""), parts[3].replaceAll("\"", ""));
-				}
-				
-			} catch (MyException e){
-				System.out.println(e.getMessage());
+			if(parts.length == 2){
+				return Csv.parseDataset(parts[1].replaceAll("\"", ""));
+			} else if(parts.length == 3){
+				return Csv.parseDataset(parts[1].replaceAll("\"", ""), parts[2].replaceAll("\"", ""));
+			} else if(parts.length == 4){
+				return Csv.parseDataset(parts[1].replaceAll("\"", ""), parts[2].replaceAll("\"", ""), parts[3].replaceAll("\"", ""));
 			}
 			
 		}
 		else{
-			System.out.println("Número de parâmetros incorreto.");
+			throw new MyException("Número incorreto de parâmetros. Verifique se pelo menos o path do o arquivo foi passado.");			
 		}
+		
+		return null;
 	}
 	
-	public void query(){
+	public static Dataset query(Dataset dataset, String sentence) throws MyException{
+				
+		Query query = new Query(dataset);			
 		
-		if(dataset == null){
-			System.out.println("Nenhum dataset encontrado. Utilize o comando use \"/path/to/file.csv\" \"contentType\"");
+		Dataset results = query.exec(sentence);
+		
+		return results;		
+	}
+	
+	public static void print(Dataset results){
+		System.out.println(String.join(",", results.getHeader()));
+		
+		for(List<String> row : results.getBody()){
+			System.out.println(String.join(",", row));
 		}
-		else{
-			
-			Query query = new Query(dataset);			
-			
-			Dataset results = query.exec(sentence);
-			
-			System.out.println(String.join(",", results.getHeader()));
-			
-			for(List<String> row : results.getBody()){
-				System.out.println(String.join(",", row));
-			}
-		}		
 		
 		System.out.println();
-		
-	}
-	
-	public static void clear(){		
-		
-		for (int i = 0; i < 80; ++i){
-			System.out.println();
-		}
-		
 	}
 	
 	public static void exit(){	
@@ -115,6 +105,14 @@ public class Console {
 		System.out.print("bye");
 		
 		System.exit(0);
+		
+	}
+
+	public static void clear(){		
+		
+		for (int i = 0; i < 80; ++i){
+			System.out.println();
+		}
 		
 	}
 }

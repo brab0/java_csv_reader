@@ -1,6 +1,7 @@
 package com.involves.query;
 
 import com.involves.Dataset;
+import com.involves.MyException;
 
 public class Query {
 	
@@ -8,18 +9,20 @@ public class Query {
 	private Sentence sentence;
 	private Operation operation;	
 	
-	public Query(Dataset dataset){
-		//sem copiar referencia em memória
-		copyDataset(dataset);
+	public Query(Dataset dataset) throws MyException{
+		
+		setDataset(dataset);
 		
 		this.sentence = new Sentence();
 		this.operation = new Operation();
-	}
+	}	
 	
-	public void copyDataset(Dataset dataset){
-		this.dataset = new Dataset();
-		this.dataset.setHeader(dataset.getHeader());
-		this.dataset.setBody(dataset.getBody());
+	public void setDataset(Dataset dataset) throws MyException{
+		if(dataset != null){
+			this.dataset = dataset.copy();
+		} else{
+			throw new MyException("Nenhum dataset definido. Antes de começar a executar queries, utilize o comando: use \"/path/to/file.csv\" [\"delimiter\" \"contentType\"]");			
+		}
 	}
 	
 	public Dataset getDataset() {
@@ -48,14 +51,26 @@ public class Query {
 		}
 	}
 	
-	public Dataset exec(String sentenceStr){
+	public Dataset exec(String sentenceStr) throws MyException {
 		
 		setSentence(sentenceStr);
 		
-		for (String op : sentence.getOperations()) {			
-			this.dataset = operation.getItem(op).exec(dataset, sentence);			
-		}
-		
-		return dataset;
+		if(sentence.getOperations().size() > 0){
+			
+			if(sentence.getProperties().size() > 0){
+				
+				for (String op : sentence.getOperations()) {			
+					this.dataset = operation.getItem(op).exec(dataset, sentence);			
+				}
+				
+				return dataset;
+				
+			} else{
+				throw new MyException("Nenhuma propriedade válida encontrada na sentença.");
+			}
+			
+		} else{
+			throw new MyException("Nenhuma operação válida encontrada na sentença.");
+		}		
 	}	
 }
