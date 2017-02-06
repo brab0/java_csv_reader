@@ -24,7 +24,7 @@ Parser de arquivos CSV para Datatable com execução de queries através do cons
 
 
 ##Console
-- **use path/to/file [delimiter encodeType]** - lê csv e seta o datatable que será utilizado para consultas.
+- **use path/to/file [delimiter encodeType]** - lê csv e seta o datatable que será utilizado para consultas. Os parâmetros delimiter e encodeType são opcionais e seus respectivos valores padrão são "," e "UTF-8".
 - **clear** - simula limpeza do console.
 - **exit** - sai da aplicação.
 - **count** * - escreve no console a contagem total de registros importados
