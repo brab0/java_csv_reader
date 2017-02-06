@@ -2,11 +2,23 @@
 Parser de arquivos CSV para Datatable com execução de queries através do console.
 
 
-##Configuração
+##Config
 - git clone url 
 - import > existing maven projects
 - maven > update project
 - run as > maven build > clean install package
+
+##Run
+###Tests
+- O maven build já irá rodar todos os test cases, caso a opção skip tests estiver desmarcada. Porém,  possível executar a classe TestSuite para rodar todos (Run as > JUnit Test).
+
+###Application
+- Run as > Java Application. O console estará disponível para entradas.
+- Em "src/test/resources/" existem alguns arquivos sample. Selecione o arquivo a ser usado executando no console: use src/test/resources/cidades.csv
+- Escreva suas consultas. 
+####Considerações
+- As propriedades(colunas) utilizadas nas queries, são as mesmas do header do Datatable (1a linha do arquivo CSV).
+- Para paths ou arquivos com espaço, pode-se utilizar aspas duplas("arquivo com espaço.csv")
 
 
 ##Console Commands
