@@ -2,11 +2,18 @@
 Parser de arquivos CSV para Datatable com execução de queries através do console.
 
 
+##Projeto
+- Cobertura de testes unitários
+- Utilização de conceitos do padrão de projetos Adapter para evolução e manuteção da classe Operations.
+- Flexibilidade do código para futuras evoluções. Abstração voltada para datatables que possam receber qualquer tipo de arquivo csv.
+
+
 ##Config
 - git clone url 
 - import > existing maven projects
 - maven > update project
 - run as > maven build > clean install package
+
 
 ##Run
 ###Tests
@@ -16,7 +23,6 @@ Parser de arquivos CSV para Datatable com execução de queries através do cons
 - Run as > Java Application. O console estará disponível para entradas.
 - Em "src/test/resources/" existem alguns arquivos sample. Selecione o arquivo a ser usado executando no console: use src/test/resources/cidades.csv
 - Escreva suas consultas. 
-
 
 ####Considerações
 - O programa utiliza a primeira linha do arquivo lido como header do Datatable. Sendo assim, os itens deste header são utilizados como propriades(colunas) para as queries.
@@ -31,8 +37,5 @@ Parser de arquivos CSV para Datatable com execução de queries através do cons
 - **count distinct propriedade** - escreve no console o total de valores distintos da propriedade (coluna) enviada 
 - **filter propriedade valor** - escreve no console a linha de cabeçalho e todas as linhas em que a propriedade enviada possua o valor enviado 
 
-
-##Consideraçes sobre o Projeto
-- Cobertura de testes unitários
-- Utilização de conceitos do padrão de projetos Adapter para evolução e manuteção da classe Operations.
-- Flexibilidade do código para futuras evoluções. Abstração voltada para datatables que possam receber qualquer tipo de arquivo csv.
+####Considerações
+- Para queries que utilzem valores com espaços em branco, estes valores deverão estar entre aspas duplas("valor com espaço em branco").
