@@ -1,7 +1,6 @@
 # Java Csv Reader
-===================
-Parser de arquivos CSV para Datatable com execução de queries através do console.
 -------------------
+Parser de arquivos CSV para Datatable com execução de queries através do console.
 
 
 Configuração
