@@ -16,6 +16,7 @@ Parser de arquivos CSV para Datatable com execução de queries através do cons
 - Run as > Java Application. O console estará disponível para entradas.
 - Em "src/test/resources/" existem alguns arquivos sample. Selecione o arquivo a ser usado executando no console: use src/test/resources/cidades.csv
 - Escreva suas consultas. 
+
 ####Considerações
 - As propriedades(colunas) utilizadas nas queries, são as mesmas do header do Datatable (1a linha do arquivo CSV).
 - Para paths ou arquivos com espaço, pode-se utilizar aspas duplas("arquivo com espaço.csv")
