@@ -5,12 +5,11 @@ Parser de arquivos CSV para Datatable com execução de queries através do cons
 
 
 Configuração
-===================
+-------------
 - git clone url 
 - import > existing maven projects
 - maven > update project
 - run as > maven build > clean install package
-----------
 
 
 Console Commands
