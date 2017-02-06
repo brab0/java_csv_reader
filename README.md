@@ -17,19 +17,16 @@ Parser de arquivos CSV para Datatable com execução de queries através do cons
 - Em "src/test/resources/" existem alguns arquivos sample. Selecione o arquivo a ser usado executando no console: use src/test/resources/cidades.csv
 - Escreva suas consultas. 
 
+
 ####Considerações
-- As propriedades(colunas) utilizadas nas queries, são as mesmas do header do Datatable (1a linha do arquivo CSV).
+- O programa utiliza a primeira linha do arquivo lido como header do Datatable. Sendo assim, os itens deste header são utilizados como propriades(colunas) para as queries.
 - Para paths ou arquivos com espaço, pode-se utilizar aspas duplas("arquivo com espaço.csv")
 
 
-##Console Commands
+##Console
 - **use path/to/file [delimiter encodeType]** - lê csv e seta o datatable que será utilizado para consultas.
 - **clear** - simula limpeza do console.
 - **exit** - sai da aplicação.
-- **[queries]** - Utilizando as queries abaixo, é possível consultar no datatable selecionado.
-
-
-##Queries
 - **count** * - escreve no console a contagem total de registros importados
 - **count distinct propriedade** - escreve no console o total de valores distintos da propriedade (coluna) enviada 
 - **filter propriedade valor** - escreve no console a linha de cabeçalho e todas as linhas em que a propriedade enviada possua o valor enviado 
@@ -37,5 +34,5 @@ Parser de arquivos CSV para Datatable com execução de queries através do cons
 
 ##Consideraçes sobre o Projeto
 - Cobertura de testes unitários
-- Utilização de conceitos do padrão de projetos Adapter.
+- Utilização de conceitos do padrão de projetos Adapter para evolução e manuteção da classe Operations.
 - Flexibilidade do código para futuras evoluções. Abstração voltada para datatables que possam receber qualquer tipo de arquivo csv.
