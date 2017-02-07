@@ -41,4 +41,3 @@ Parser de arquivos CSV para Datatable com execução de queries através do cons
 - As queries seguem um encadeamento em cascata guiado por prioridades (count por último, ex). Isso quer dizer que as sentenças podem ser misturadas, mesmo que em alguns casos isso não faça tanto sentido (ex: **distinct uf** and **filter** where value is **PA**).
 - Para valores passados com parâmetro em queries, paths ou arquivos contendo espaços em branco, estes deverão estar entre aspas duplas (ex: filter name "rio de janeiro").
 - O programa utiliza a primeira linha do arquivo lido como header do Datatable. Sendo assim, os itens deste header são utilizados como propriades(colunas) para as queries.
-- Para paths ou arquivos com espaço, pode-se utilizar aspas duplas("arquivo com espaço.csv")
