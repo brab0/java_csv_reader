@@ -7,7 +7,6 @@ Parser de arquivos CSV para Datatable com execução de queries através do cons
 - Tem cobertura de testes unitários para as principais classes e métodos.
 - Foram utilização alguns conceitos do padrão de projetos Adapter para evolução e manutenção da classe Operations.
 - Abstração de Datatable: o arquivo sample (src/test/resources/cidades.csv) poderia ser facilmente abstraído para um modelo que representasse ou extendesse específicamente seu conteúdo (estados->cidades->region->etc). Porém, a modelagem em forma de Datatable permite, não só uma escalabilidade maior, no sentido de aceitação de novos tipos e formatos de fontes e operações, como também evita processamentos desnecessários(para a problemática em questão) no que diz respeito a consulta e retorno.
-- 
 
 
 ##Config
